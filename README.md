@@ -13,7 +13,7 @@ El aplicativo web debe permitir al usuario
 -	tener acceso al carrito de compras
 -	realizar una compra
 -	descargar la boleta de su compra
-El aplicativo web debe permitir al administrador 
+- El aplicativo web debe permitir al administrador 
 -	eliminar/agregar/editar productos
 -	eliminar/editar clientes
 -	editar estado del reclamo
@@ -195,6 +195,15 @@ Rama fix: Se usa cuando detectas un bug o error en el código existente y necesi
   <img src="./screenshots/Conflict1.jpeg" alt="Descripción"/>
 </p>
 
+- En Git, un tag es una etiqueta que se utiliza para marcar versiones específicas del proyecto (por ejemplo: una versión estable o una actualización importante). Sirven para identificar puntos clave en el historial (como v1.0.0, v1.1.0, etc.) Los tags son muy útiles al momento de publicar versiones o mantener un registro del progreso del desarrollo.
+  ```bash
+  git tag -a v1.0.0 -m "Primera versión estable del proyecto"
+  git push origin v1.0.0
+  git tag
+<p align="center">
+  <img src="./screenshots/Tags.png" alt="Descripción"/>
+</p>
+
 ### Pull Request/Merge Request:
 Un Pull Request es una solicitud que haces en plataformas como GitHub o GitLab para pedir que los cambios de tu rama se integren en otra (normalmente en main o develop).
 Un Merge Request es lo mismo que un Pull Request, pero con el nombre usado en GitLab. Utilizamos Pull Request para pedir un merge de los cambios realizados en una rama hacia el Main, todos los colaboradores pueden verificar y confirmar el Merge.
@@ -204,6 +213,8 @@ Un Merge Request es lo mismo que un Pull Request, pero con el nombre usado en Gi
   <img src="./screenshots/Request3.jpeg" alt="Descripción"/>
   <img src="./screenshots/Request4.jpeg" alt="Descripción"/>
 </p>
+
+ ---
 
 ### Resolución de problemas: 
 Durante el desarrollo, surgió un conflicto de merge porque dos ramas diferentes habían modificado el archivo README.md en las mismas secciones.
@@ -223,6 +234,8 @@ De esta forma, el repositorio quedó actualizado y sin conflictos, manteniendo u
   <img src="./screenshots/Conflict3.jpeg" alt="Descripción"/>  
 </p>
 
+---
+
 ### Historial de puntos de control: 
 En Git, los puntos de control o checkpoints son todos los commits realizados hasta el momento.
 <p align="center">
@@ -236,15 +249,128 @@ En Git, la cabecera o HEAD es un puntero especial que indica en qué commit est�
   <img src="./screenshots/Cabeceras.jpeg" alt="Descripción"/>
 </p>
 
-### 🖼️ Capturas de Pantalla
 ---
+
+### Creación y configuración de Forks:
+
+#### >> ¿Para que sirve el Fork?
+Con un fork, se crea una copia completa del repositorio original en tu cuenta personal de GitHub. 
+Esto permite hacer modificaciones sin afectar directamente el proyecto principal. 
+Una vez que se hayan hecho los cambios y probado en tu fork, se puede crear un Pull Request para proponer esos cambios al repositorio original.
+  
+#### >> ¿Cómo se crea?
+  1. Entra al repositorio original en GitHub y haz clic en el botón "Fork"
+<p align="center">
+  <img src="./screenshots/BtnFork.png" alt="Descripción"/>
+</p>
+  
+  2. Elige tu cuenta personal para alojar la copia del repositorio
+<p align="center">
+  <img src="./screenshots/CreateFork.png" alt="Descripción"/>
+</p>
+
+  3. Luego clona tu fork a tu máquina local con: 
+  ```bash
+  git clone https://github.com/tuusuario/Herramientas-De-Desarrollo.git  
+  ```
+
+#### >> Visualización de Forks del Trabajo
+<p align="center">
+  <img src="./screenshots/Fork.png" alt="Descripción"/>
+</p>
+  
+#### >> ¿Para que sirve el Upstream?
+Sirve para sincronizar tu fork con el proyecto principal, de modo que tengas los últimos commits o actualizaciones.
+Así puedes contribuir con la versión más reciente y evitar conflictos.
+
+#### >> ¿Cómo funciona el Upstream en la práctica?
+
+1. Ver tus repositorios remotos:
+```bash
+git remote -v
+```
+Te mostrará algo como:
+```bash
+origin    https://github.com/tuusuario/mi-fork.git (fetch)
+upstream  https://github.com/MaryenAguilar/Herramientas-De-Desarrollo.git (fetch)
+```
+
+2. Obtener los cambios del original:
+```bash
+git fetch upstream
+```
+
+Esto descarga los commits nuevos del repositorio principal (no los mezcla todavía).
+
+3. Actualizar tu rama:
+```bash
+git checkout develop
+git merge upstream/develop
+```
+Ahora tu rama local develop tiene los últimos cambios del proyecto original.
+
+4. Subirlos a tu fork de tu cuenta:
+```bash
+git push origin develop
+```
+
+---
+
+### Creación de Issues, Milestones y Tableros de proyecto:
+
+Usamos los Issues para:
+- Errores o bugs
+- Nuevas funcionalidades
+- Mejoras o tareas pendientes
+
+Cada Issue puede tener: 
+- Un título y descripción
+- Etiquetas (labels)
+- Asignados (personas responsables)
+- Comentarios y referencias a commits o pull requests
+
+![Issue](./screenshots/Issue.jpeg)
+
+Un Milestone agrupa varios Issues relacionados bajo un objetivo o entrega concreta.
+Sirve para organizar el trabajo por versiones, fases o entregas.
+
+Ejemplos:
+Milestone Release v1.0”
+
+Issue #2: Crear Repositorios
+
+Issue #3: Crear Mappers
+
+Issue #4: Crear Controlador
+
+![Milestones](./screenshots/Milestones.jpeg)
+![Milestones](./screenshots/Milestones2.jpeg)
+
+Un tablero de proyectos sirver para organizar Issues y Pull Requests en columnas (por ejemplo, “Por hacer”, “En progreso”, “Hecho”).
+Ayuda a planificar, priorizar y hacer seguimiento del flujo de trabajo.
+
+![Tableros](./screenshots/Tableros.jpeg)
+![Tableros](./screenshots/Tableros2.jpeg)
+
+---
+
+### Estructura del trabajo
+![Estructura](./screenshots/EstructuraProy.png)
+
+---
+
+### 🖼️ Capturas de Pantalla
 
 ### 🏠 Pantalla Principal
 ![Index](./screenshots/paginaprincipal.png)
 ---
 
-### Pagina Login
-![Login](./screenshots/paginalogin.png)
+### Página Login
+![Login](./screenshots/paginalogin.jpeg)
+---
+
+### Página Registro
+![Login](./screenshots/paginaregistro.jpeg)
 ---
 
 ### 🛍️ Lista de Productos
