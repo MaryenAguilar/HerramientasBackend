@@ -1,5 +1,6 @@
 package com.marly.demo.Persistance.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
@@ -18,7 +19,10 @@ public class Reclamos {
     @Column(name = "estadoreclamo", nullable = false)
     private EstadoReclamo estadoreclamo = EstadoReclamo.PENDIENTE;
 
+    @Column(name = "fechareclamo", columnDefinition = "DATETIME(0)")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp fechareclamo;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;

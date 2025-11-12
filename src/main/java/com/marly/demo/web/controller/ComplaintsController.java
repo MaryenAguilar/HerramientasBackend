@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -34,7 +35,18 @@ public class ComplaintsController {
 
     //Crear nuevo reclamo
     @PostMapping("/save")
-    public ResponseEntity<Complaints> save(@RequestBody Complaints complaint) {
+    public ResponseEntity<Complaints> save(@RequestBody Map<String, Object> body) {
+        Map<String, Object> usuario = (Map<String, Object>) body.get("usuario");
+
+        Complaints complaint = new Complaints();
+        complaint.setOrderdate((String) body.get("fechaPedido"));
+        complaint.setClaimreason((String) body.get("motivoReclamo"));
+        complaint.setDetail((String) body.get("detalle"));
+
+        if (usuario != null && usuario.get("id") != null) {
+            complaint.setUserId(Long.valueOf(usuario.get("id").toString()));
+        }
+
         Complaints saved = complaintsService.save(complaint);
         return ResponseEntity.ok(saved);
     }
