@@ -71,7 +71,8 @@ public class AuthController {
                 .orElse("usuario");
 
              return ResponseEntity.ok(Map.of(
-                "status", "ok", 
+                "status", "ok",
+                     "id", String.valueOf(usuario.getId()),
                 "rol", rol,
                 "nombre", usuario.getNombre(),
                 "apellidos", usuario.getApellidos(),

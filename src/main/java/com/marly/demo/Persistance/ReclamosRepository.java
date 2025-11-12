@@ -44,14 +44,17 @@ public class ReclamosRepository implements ComplaintsRepository{
     public Complaints save(Complaints complaint) {
         Reclamos reclamos = complaintsMapper.toReclamos(complaint);
 
+        // Buscar y asignar el usuario a la entidad
         if (complaint.getUserId() != null) {
             Usuario usuario = usuarioCrudRepository.findById(complaint.getUserId())
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
             reclamos.setUsuario(usuario);
+        } else {
+            throw new RuntimeException("El ID de usuario no fue proporcionado");
         }
 
-        reclamos = reclamosCrudRepository.save(reclamos);
-        return complaintsMapper.toComplaints(reclamos);
+        Reclamos saved = reclamosCrudRepository.save(reclamos);
+        return complaintsMapper.toComplaints(saved);
     }
 
     //Eliminar reclamo por ID
