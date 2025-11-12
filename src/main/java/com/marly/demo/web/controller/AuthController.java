@@ -65,15 +65,21 @@ public class AuthController {
             }
 
 
-            String rol = usuario.getRol().stream()
-                    .findFirst()
-                    .map(r -> r.getNombre().toLowerCase())
-                    .orElse("comprador");
+           String rol = usuario.getRol().stream()
+                .findFirst()
+                .map(r -> r.getNombre().toLowerCase())
+                .orElse("usuario");
 
-            return ResponseEntity.ok(Map.of(
-                    "status", "ok",
-                    "rol", rol
-            ));
+             return ResponseEntity.ok(Map.of(
+                "status", "ok", 
+                "rol", rol,
+                "nombre", usuario.getNombre(),
+                "apellidos", usuario.getApellidos(),
+                "correo", usuario.getCorreo(),
+                "dni", usuario.getDni(),
+                "direccion", usuario.getDireccion(),
+                "telefono", usuario.getTelefono()
+        ));
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("status", "error"));
         }
