@@ -1,0 +1,86 @@
+package com.marly.demo.Persistance;
+
+import com.marly.demo.Domain.Complaints;
+import com.marly.demo.Domain.Repository.ComplaintsRepository;
+import com.marly.demo.Persistance.Crud.ReclamosCrudRepository;
+import com.marly.demo.Persistance.Crud.UsuarioCrudRepository;
+import com.marly.demo.Persistance.Entity.Reclamos;
+import com.marly.demo.Persistance.Entity.Usuario;
+import com.marly.demo.Persistance.Mapper.ComplaintsMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Repository
+public class ReclamosRepository implements ComplaintsRepository{
+    @Autowired
+    private ReclamosCrudRepository reclamosCrudRepository;
+
+    @Autowired
+    private ComplaintsMapper complaintsMapper;
+
+    @Autowired
+    private UsuarioCrudRepository usuarioCrudRepository;
+
+    // Obtener todos los resultados
+    @Override
+    public List<Complaints> getAll() {
+        List<Reclamos> reclamos = (List<Reclamos>) reclamosCrudRepository.findAll();
+        return complaintsMapper.toComplaintsList(reclamos);
+    }
+
+    //Buscar reclamo por ID
+    @Override
+    public Optional<Complaints> getComplaints(Long idComplaints) {
+        return reclamosCrudRepository.findById(idComplaints)
+                .map(complaintsMapper::toComplaints);
+    }
+
+    //Guardar nuevo reclamo
+    @Override
+    public Complaints save(Complaints complaint) {
+        Reclamos reclamos = complaintsMapper.toReclamos(complaint);
+
+        if (complaint.getUserId() != null) {
+            Usuario usuario = usuarioCrudRepository.findById(complaint.getUserId())
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+            reclamos.setUsuario(usuario);
+        }
+
+        reclamos = reclamosCrudRepository.save(reclamos);
+        return complaintsMapper.toComplaints(reclamos);
+    }
+
+    //Eliminar reclamo por ID
+    @Override
+    public void delete(Long idComplaints) {
+        reclamosCrudRepository.deleteById(idComplaints);
+    }
+
+    //Buscar reclamos por ID de usuario
+    @Override
+    public List<Complaints> getByUserId(Long userId) {
+        List<Reclamos> reclamos = reclamosCrudRepository.findByUsuario_Id(userId);
+        return complaintsMapper.toComplaintsList(reclamos);
+    }
+
+    //Actualizar reclamo existente
+    @Override
+    public Complaints update(Complaints complaint) {
+        Reclamos existingReclamo = reclamosCrudRepository.findById(complaint.getIdcomplaints())
+                .orElseThrow(() -> new RuntimeException("Reclamo no encontrado"));
+
+        if (complaint.getClaimstatus() != null) {
+            existingReclamo.setEstadoreclamo(
+                    Reclamos.EstadoReclamo.valueOf(complaint.getClaimstatus().toUpperCase())
+            );
+        }
+
+        Reclamos updated = reclamosCrudRepository.save(existingReclamo);
+
+        return complaintsMapper.toComplaints(updated);
+    }
+}
