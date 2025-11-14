@@ -7,6 +7,7 @@ import com.marly.demo.Persistance.Mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
+import java.util.List;
 
 @Repository
 public class UsuarioRepository {
@@ -34,4 +35,20 @@ public class UsuarioRepository {
     public Optional<Usuario> findUsuarioByCorreo(String correo) {
         return userRepository.findByCorreo(correo);
     }
+
+
+      public void deleteById(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id)
+                .map(mapper::toUser);
+    }
+
+     public List<Usuario> findAll() {
+        return userRepository.findAll(); 
+    }
+    
 }

@@ -7,16 +7,22 @@ import com.marly.demo.Persistance.Entity.Usuario;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Collections;
+import com.marly.demo.Persistance.Mapper.UserMapper;
+import java.util.List;
+
+
 
 @Service
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, RoleRepository roleRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, RoleRepository roleRepository, UserMapper userMapper) {
         this.usuarioRepository = usuarioRepository;
         this.roleRepository = roleRepository;
+        this.userMapper = userMapper;
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
@@ -43,4 +49,35 @@ public class UsuarioService {
     public Usuario obtenerEntidadPorCorreo(String correo) {
         return usuarioRepository.findUsuarioByCorreo(correo).orElse(null);
     }
+
+   public User actualizarUsuario(User user) {
+    
+    if (user.getPassword() != null) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    }
+    return usuarioRepository.save(user);
+}
+
+public void eliminarUsuario(Long id) {
+    usuarioRepository.deleteById(id);
+}
+
+public List<Usuario> obtenerTodosUsuarios() {
+    return usuarioRepository.findAll();
+}
+
+public User crearUsuarioAdmin(User user) {
+        if (user.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+
+       
+        if (user.getRoles() == null || user.getRoles().isEmpty()) {
+            asignarRol(user, "USUARIO");
+        }
+
+        return usuarioRepository.save(user);
+    }
+
+
 }
