@@ -1,25 +1,21 @@
-# Usar imagen de Maven para compilar
+# ---- STAGE 1: BUILD ----
 FROM maven:3.9.6-eclipse-temurin-21 AS build
 
-# Crear directorio de trabajo
 WORKDIR /app
 
-# Copiar todo el proyecto
-COPY . .
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
 
-# Construir JAR sin tests
+COPY . .
 RUN mvn clean package -DskipTests
 
-# Segunda etapa: imagen optimizada
-FROM eclipse-temurin:17-jdk
+# ---- STAGE 2: RUN ----
+FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-# Copiar el JAR generado desde la etapa anterior
 COPY --from=build /app/target/*.jar app.jar
 
-# Exponer el puerto
 EXPOSE 8080
 
-# Comando de inicio
 ENTRYPOINT ["java", "-jar", "app.jar"]
