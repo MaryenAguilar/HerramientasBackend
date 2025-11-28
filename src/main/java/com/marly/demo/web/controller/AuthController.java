@@ -42,7 +42,7 @@ public class AuthController {
 
         String nombreRol;
         switch (rolSeleccionado) {
-            case "2" -> nombreRol = "ADMINISTRADOR";
+            case "2" -> nombreRol = "ADMIN";
             case "1" -> nombreRol = "USUARIO";
             default -> nombreRol = "USUARIO";
         }
